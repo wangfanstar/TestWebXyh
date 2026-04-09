@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>北京新翊和技术有限公司 | 国产高性能网络芯片技术服务 | Xynex</title>
+  <meta name="description" content="北京新翊和技术有限公司（Xynex）专注于国产高性能网络芯片技术研发，提供芯片开发、AI算力网络、芯片应用及定制开发等全栈技术服务。成立于2025年，团队成员均来自985/211院校。">
+  <meta name="keywords" content="北京新翊和技术,Xynex,国产芯片,网络芯片,AI算力网络,芯片开发,芯片验证,FPGA,CPU,NP芯片,SDK开发,芯片国产化,算力网络,定制开发">
+  <meta name="author" content="北京新翊和技术有限公司">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="zh-CN">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="北京新翊和技术有限公司 | Xynex">
+  <meta property="og:description" content="专注于国产高性能网络芯片技术研发，提供芯片开发、AI算力网络、芯片应用及定制开发全栈技术服务。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.xynex.cn">
+  <meta property="og:locale" content="zh_CN">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://www.xynex.cn">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary: #0a2540;
+      --accent: #1a73e8;
+      --accent-light: #e8f0fe;
+      --text: #2d3748;
+      --text-secondary: #718096;
+      --bg: #f7fafc;
+      --white: #ffffff;
+      --border: #e2e8f0;
+      --gradient: linear-gradient(135deg, #0a2540 0%, #1a4b8c 60%, #1a73e8 100%);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      color: var(--text);
+      background: var(--white);
+      line-height: 1.7;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10, 37, 64, 0.97);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      color: #fff;
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: .02em;
+      text-decoration: none;
+    }
+    .nav-logo span { color: #60a5fa; }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a {
+      color: rgba(255,255,255,.75);
+      text-decoration: none;
+      font-size: .9rem;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: #fff; }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--gradient);
+      color: #fff;
+      padding: 100px 24px 90px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+    .hero-inner { position: relative; max-width: 800px; margin: 0 auto; }
+    .hero-en {
+      display: inline-block;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 20px;
+      padding: 4px 18px;
+      font-size: .85rem;
+      letter-spacing: .1em;
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      letter-spacing: -.01em;
+    }
+    .hero-sub {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      opacity: .85;
+      margin-bottom: 40px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .hero-mission {
+      display: inline-block;
+      background: rgba(255,255,255,.1);
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 12px;
+      padding: 16px 32px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      letter-spacing: .05em;
+    }
+    .hero-tags {
+      margin-top: 48px;
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .hero-tag {
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 6px;
+      padding: 5px 14px;
+      font-size: .82rem;
+      color: rgba(255,255,255,.9);
+    }
+
+    /* ── SECTION BASE ── */
+    section { padding: 80px 24px; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      display: inline-block;
+      background: var(--accent-light);
+      color: var(--accent);
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 4px;
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 12px;
+      line-height: 1.25;
+    }
+    .section-desc {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      max-width: 580px;
+      margin-bottom: 56px;
+    }
+
+    /* ── ABOUT ── */
+    #about { background: var(--bg); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 24px;
+      margin-bottom: 56px;
+    }
+    .about-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px 24px;
+      text-align: center;
+    }
+    .about-card .label {
+      font-size: .78rem;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+      letter-spacing: .06em;
+    }
+    .about-card .value {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    .about-card .value a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    /* ── SERVICES ── */
+    #services { background: var(--white); }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 28px;
+    }
+    .service-card {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 32px 28px;
+      transition: box-shadow .25s, transform .25s;
+    }
+    .service-card:hover {
+      box-shadow: 0 12px 40px rgba(26,115,232,.1);
+      transform: translateY(-3px);
+    }
+    .service-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: var(--accent-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      font-size: 1.4rem;
+    }
+    .service-card h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 12px;
+    }
+    .service-card p {
+      font-size: .9rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+    .service-tags {
+      margin-top: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .stag {
+      background: var(--bg);
+      color: var(--text-secondary);
+      font-size: .75rem;
+      padding: 3px 10px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+    }
+
+    /* ── MISSION ── */
+    #mission { background: var(--bg); }
+    .mission-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 28px;
+    }
+    .mission-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 32px 28px;
+    }
+    .mission-num {
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: var(--accent-light);
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+    .mission-card h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+    .mission-quote {
+      font-size: .88rem;
+      color: var(--accent);
+      font-weight: 600;
+      border-left: 3px solid var(--accent);
+      padding-left: 12px;
+      margin-bottom: 12px;
+    }
+    .mission-card p {
+      font-size: .9rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* ── TEAMS ── */
+    #teams { background: var(--white); }
+    .teams-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 28px;
+    }
+    .team-card {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+    .team-header {
+      background: var(--gradient);
+      padding: 24px 24px 20px;
+      color: #fff;
+    }
+    .team-header h3 { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+    .team-header .lead { font-size: .82rem; opacity: .8; }
+    .team-body { padding: 20px 24px; }
+    .team-body p {
+      font-size: .88rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 14px;
+    }
+    .team-directions { list-style: none; }
+    .team-directions li {
+      font-size: .85rem;
+      color: var(--text);
+      padding: 5px 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      gap: 8px;
+    }
+    .team-directions li:last-child { border-bottom: none; }
+    .team-directions li::before {
+      content: '→';
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    /* ── QUALIFICATIONS ── */
+    #qualifications { background: var(--bg); }
+    .qual-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+    .qual-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px 24px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+    .qual-icon {
+      font-size: 1.8rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .qual-card h3 {
+      font-size: .95rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+    .qual-card p {
+      font-size: .88rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* ── CONTACT ── */
+    #contact {
+      background: var(--gradient);
+      color: #fff;
+      text-align: center;
+    }
+    #contact .section-title { color: #fff; }
+    #contact .section-desc { color: rgba(255,255,255,.8); max-width: 100%; }
+    .contact-info {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 32px;
+      margin-top: 40px;
+    }
+    .contact-item {
+      background: rgba(255,255,255,.1);
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 12px;
+      padding: 20px 32px;
+    }
+    .contact-item .c-label {
+      font-size: .78rem;
+      opacity: .7;
+      letter-spacing: .08em;
+      margin-bottom: 6px;
+    }
+    .contact-item .c-value {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+    .contact-item .c-value a {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #050f1e;
+      color: rgba(255,255,255,.5);
+      text-align: center;
+      padding: 28px 24px;
+      font-size: .82rem;
+    }
+    footer a { color: rgba(255,255,255,.6); text-decoration: none; }
+    footer a:hover { color: #fff; }
+
+    /* ── HAMBURGER BUTTON ── */
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 36px;
+      height: 36px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 6px;
+      transition: background .2s;
+    }
+    .nav-toggle:hover { background: rgba(255,255,255,.1); }
+    .nav-toggle span {
+      display: block;
+      width: 100%;
+      height: 2px;
+      background: #fff;
+      border-radius: 2px;
+      transition: transform .3s, opacity .3s;
+    }
+    .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-toggle.open span:nth-child(2) { opacity: 0; }
+    .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ── RESPONSIVE — tablet (≤900px) ── */
+    @media (max-width: 900px) {
+      .services-grid,
+      .teams-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .mission-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    /* ── RESPONSIVE — mobile (≤640px) ── */
+    @media (max-width: 640px) {
+      /* Nav */
+      .nav-toggle { display: flex; }
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        gap: 0;
+        background: rgba(10, 37, 64, 0.98);
+        border-top: 1px solid rgba(255,255,255,.08);
+        padding: 8px 0 16px;
+        z-index: 99;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links li { width: 100%; }
+      .nav-links a {
+        display: block;
+        padding: 12px 24px;
+        font-size: 1rem;
+        border-bottom: 1px solid rgba(255,255,255,.05);
+      }
+      .nav-links li:last-child a { border-bottom: none; }
+
+      /* Hero */
+      .hero { padding: 64px 20px 52px; }
+      .hero-en { font-size: .75rem; letter-spacing: .07em; }
+      .hero-mission { padding: 12px 20px; font-size: 1rem; }
+      .hero-tags { gap: 8px; margin-top: 32px; }
+
+      /* Sections */
+      section { padding: 56px 20px; }
+      .section-desc { margin-bottom: 36px; }
+
+      /* About */
+      .about-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        margin-bottom: 32px;
+      }
+      .about-card { padding: 20px 16px; }
+      .about-card:last-child {
+        grid-column: 1 / -1;
+      }
+
+      /* Mission card inline style box */
+      div[style*="max-width:780px"] {
+        padding: 24px 20px !important;
+      }
+
+      /* Services */
+      .services-grid,
+      .teams-grid,
+      .mission-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+      .service-card { padding: 24px 20px; }
+      .mission-card { padding: 24px 20px; }
+
+      /* Teams */
+      .team-body { padding: 16px 20px; }
+
+      /* Qualifications */
+      .qual-grid { grid-template-columns: 1fr; gap: 16px; }
+      .qual-card { padding: 20px 16px; }
+
+      /* Contact */
+      .contact-info { flex-direction: column; gap: 16px; }
+      .contact-item {
+        padding: 16px 20px;
+        width: 100%;
+        text-align: left;
+      }
+      .contact-item .c-value { font-size: .95rem; word-break: break-all; }
+
+      /* Footer */
+      footer { font-size: .78rem; line-height: 1.8; }
+    }
+
+    /* ── RESPONSIVE — very small (≤380px) ── */
+    @media (max-width: 380px) {
+      .about-grid { grid-template-columns: 1fr; }
+      .about-card:last-child { grid-column: auto; }
+      .hero h1 { font-size: 1.7rem; }
+    }
+  </style>
+
+  <!-- Structured Data: Organization -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "北京新翊和技术有限公司",
+    "alternateName": ["新翊和", "Xynex"],
+    "url": "https://www.xynex.cn",
+    "foundingDate": "2025",
+    "foundingLocation": {
+      "@type": "Place",
+      "name": "北京",
+      "addressCountry": "CN"
+    },
+    "description": "专注于国产高性能网络芯片技术研发，提供芯片开发、AI算力网络、芯片应用及定制开发等全栈技术服务。",
+    "knowsAbout": [
+      "芯片开发", "FPGA验证", "AI算力网络", "芯片国产化", "SDK开发", "定制开发"
+    ],
+    "slogan": "创新为本，翊举高飞，和合共盛"
+  }
+  </script>
+
+  <!-- Structured Data: WebSite -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "北京新翊和技术有限公司",
+    "url": "https://www.xynex.cn"
+  }
+  </script>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <nav aria-label="主导航">
+    <div class="nav-inner">
+      <a class="nav-logo" href="#top">新翊和 <span>Xynex</span></a>
+      <button class="nav-toggle" id="navToggle" aria-label="打开菜单" aria-expanded="false" aria-controls="navLinks">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#about">公司简介</a></li>
+        <li><a href="#services">核心业务</a></li>
+        <li><a href="#mission">创立初心</a></li>
+        <li><a href="#teams">技术团队</a></li>
+        <li><a href="#contact">联系我们</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header id="top" class="hero" role="banner">
+    <div class="hero-inner">
+      <div class="hero-en">BEIJING XYNEX TECHNOLOGY</div>
+      <h1>北京新翊和技术有限公司</h1>
+      <p class="hero-sub">专注于国产高性能网络芯片技术研发，推动算力网络与通信网络的国产化进程</p>
+      <div class="hero-mission">创新为本，翊举高飞，和合共盛</div>
+      <div class="hero-tags">
+        <span class="hero-tag">芯片开发</span>
+        <span class="hero-tag">AI算力网络</span>
+        <span class="hero-tag">芯片验证</span>
+        <span class="hero-tag">SDK开发</span>
+        <span class="hero-tag">定制开发</span>
+        <span class="hero-tag">国产芯片</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ABOUT -->
+  <section id="about" aria-labelledby="about-title">
+    <div class="container">
+      <div class="section-label">公司简介</div>
+      <h2 class="section-title" id="about-title">关于新翊和</h2>
+      <p class="section-desc">北京新翊和技术有限公司（Xynex）是一家聚焦国产高性能网络芯片领域的技术服务公司，核心团队来自顶尖院校与头部芯片企业，具备深厚的行业积累与研发实力。</p>
+
+      <div class="about-grid">
+        <div class="about-card">
+          <div class="label">成立时间</div>
+          <div class="value">2025 年</div>
+        </div>
+        <div class="about-card">
+          <div class="label">中文简称</div>
+          <div class="value">新翊和</div>
+        </div>
+        <div class="about-card">
+          <div class="label">英文简称</div>
+          <div class="value">Xynex</div>
+        </div>
+        <div class="about-card">
+          <div class="label">注册地址</div>
+          <div class="value">北京市</div>
+        </div>
+        <div class="about-card">
+          <div class="label">官方网站</div>
+          <div class="value"><a href="https://www.xynex.cn" rel="noopener">www.xynex.cn</a></div>
+        </div>
+      </div>
+
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:14px;padding:32px 36px;max-width:780px;">
+        <h3 style="font-size:1.05rem;font-weight:700;color:var(--primary);margin-bottom:14px;">公司使命与愿景</h3>
+        <p style="color:var(--text-secondary);font-size:.95rem;line-height:1.8;">
+          核心业务面向<strong>算力网络、通信网络芯片的国产化方向</strong>，提供软硬件开发全栈技术方案。凭借专业技术之力，助力客户把握新时代发展机遇，实现和合共生，共创繁荣。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services" aria-labelledby="services-title">
+    <div class="container">
+      <div class="section-label">核心业务</div>
+      <h2 class="section-title" id="services-title">四大技术服务领域</h2>
+      <p class="section-desc">全面覆盖芯片从设计到应用的全生命周期，为客户提供一站式专业技术支持。</p>
+
+      <div class="services-grid">
+        <article class="service-card">
+          <div class="service-icon">&#129520;</div>
+          <h3>芯片开发技术服务</h3>
+          <p>专注于国产高性能网络芯片的技术研发，为客户提供芯片设计、验证等相关技术支持，助力芯片国产化进程。</p>
+          <div class="service-tags">
+            <span class="stag">芯片设计</span>
+            <span class="stag">FPGA验证</span>
+            <span class="stag">EMU验证</span>
+            <span class="stag">EDA工具</span>
+            <span class="stag">CPU/NP芯片</span>
+          </div>
+        </article>
+
+        <article class="service-card">
+          <div class="service-icon">&#9889;</div>
+          <h3>AI算力网络技术服务</h3>
+          <p>面向算力网络领域，提供AI算力网络相关的技术开发服务，满足不同场景下的算力网络建设需求。</p>
+          <div class="service-tags">
+            <span class="stag">Scale-Up网络</span>
+            <span class="stag">Scale-Out网络</span>
+            <span class="stag">GPU互联</span>
+            <span class="stag">AI集群</span>
+            <span class="stag">性能调优</span>
+          </div>
+        </article>
+
+        <article class="service-card">
+          <div class="service-icon">&#128187;</div>
+          <h3>芯片应用技术服务</h3>
+          <p>围绕芯片提供SDK、微码、编译器等开发服务和客户支持，降低客户二次开发门槛。</p>
+          <div class="service-tags">
+            <span class="stag">SDK开发</span>
+            <span class="stag">微码开发</span>
+            <span class="stag">编译器</span>
+            <span class="stag">固件开发</span>
+            <span class="stag">性能优化</span>
+          </div>
+        </article>
+
+        <article class="service-card">
+          <div class="service-icon">&#128295;</div>
+          <h3>定制开发技术服务</h3>
+          <p>为客户提供从芯片选型、软硬件开发验证到应用落地的全流程技术服务，覆盖企业、互联网、运营商、海外等多场景。</p>
+          <div class="service-tags">
+            <span class="stag">芯片选型</span>
+            <span class="stag">硬件开发</span>
+            <span class="stag">准入验证</span>
+            <span class="stag">市场适配</span>
+            <span class="stag">全栈方案</span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- MISSION -->
+  <section id="mission" aria-labelledby="mission-title">
+    <div class="container">
+      <div class="section-label">创立背景与初衷</div>
+      <h2 class="section-title" id="mission-title">创始人的初心</h2>
+      <p class="section-desc">三个核心理念驱动新翊和的创立与发展。</p>
+
+      <div class="mission-grid">
+        <article class="mission-card">
+          <div class="mission-num">01</div>
+          <h3>赋能科技人才成长</h3>
+          <div class="mission-quote">纵科技人才再远一程</div>
+          <p>秉持此理念，致力于为科技人才提供广阔的发展平台与成长空间，助力其在技术领域深耕探索，实现个人价值与行业突破。</p>
+        </article>
+
+        <article class="mission-card">
+          <div class="mission-num">02</div>
+          <h3>推动科技创新共生</h3>
+          <div class="mission-quote">促科技创新和合共生</div>
+          <p>践行这一使命，聚焦国产高性能网络芯片研发，通过技术创新与产业协同，推动算力网络、通信网络领域的国产化发展，实现与客户及行业的共同繁荣。</p>
+        </article>
+
+        <article class="mission-card">
+          <div class="mission-num">03</div>
+          <h3>凝聚卓越团队力量</h3>
+          <div class="mission-quote">引卓越团队再宽一界</div>
+          <p>以此为目标，吸引并汇聚行业顶尖人才，打造具有创新活力与协作精神的专业团队，拓展技术边界与发展维度。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEAMS -->
+  <section id="teams" aria-labelledby="teams-title">
+    <div class="container">
+      <div class="section-label">核心技术团队</div>
+      <h2 class="section-title" id="teams-title">专业团队介绍</h2>
+      <p class="section-desc">所有技术人员均来自985/211院校，具备扎实的理论基础与深厚的行业经验。</p>
+
+      <div class="teams-grid">
+        <article class="team-card">
+          <div class="team-header">
+            <h3>芯片开发技术团队</h3>
+            <div class="lead">技术负责人：Min</div>
+          </div>
+          <div class="team-body">
+            <p>拥有超过二十年行业经验的国内知名芯片公司前端开发专家和项目管理专家，从事过CPU、FPGA、NP等多种类型大型芯片的开发。</p>
+            <ul class="team-directions">
+              <li>提供芯片设计服务</li>
+              <li>提供芯片验证专家服务，包括EDA以及EMU和FPGA验证服务</li>
+              <li>提供网络芯片产品化系统业务验证服务</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="team-card">
+          <div class="team-header">
+            <h3>AI算力网络技术团队</h3>
+            <div class="lead">技术负责人：Elise</div>
+          </div>
+          <div class="team-body">
+            <p>AI算力网络的资深架构和方案专家，在Scale-Up和Scale-Out网络新技术方面有深度研究和成功实践。</p>
+            <ul class="team-directions">
+              <li>联接GPU和网络芯片，形成AI高效网络</li>
+              <li>超级节点技术方向和AI服务器集群</li>
+              <li>AI算力网络性能调优和维护</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="team-card">
+          <div class="team-header">
+            <h3>芯片应用开发团队</h3>
+            <div class="lead">技术负责人：Ethan</div>
+          </div>
+          <div class="team-body">
+            <p>数据通信领域的资深专家，精通各类芯片的系统关键技术，在软硬件技术方案落地和性能调优方面积累深厚。</p>
+            <ul class="team-directions">
+              <li>芯片固件、编译器、SDK、微码等配套开发</li>
+              <li>基于不同场景的深度性能优化和业务定制</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="team-card">
+          <div class="team-header">
+            <h3>定制开发技术团队</h3>
+            <div class="lead">技术负责人：Vicky</div>
+          </div>
+          <div class="team-body">
+            <p>数据通信领域的资深专家，成功带领过数十款中高端网络设备的软硬件开发，对企业、互联网、运营商、海外业务应用场景均有成功的产品落地经验。</p>
+            <ul class="team-directions">
+              <li>基于客户产品化需求，提供围绕网络芯片的软硬件开发和验证服务</li>
+              <li>配合客户实现目标市场的准入验证和优化</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+
+      <!-- Team qualifications -->
+      <div id="qualifications" style="margin-top:56px;">
+        <h3 style="font-size:1.25rem;font-weight:700;color:var(--primary);margin-bottom:24px;">团队综合实力</h3>
+        <div class="qual-grid">
+          <div class="qual-card">
+            <div class="qual-icon">&#127891;</div>
+            <div>
+              <h3>优质人才来源</h3>
+              <p>所有技术人员均来自985/211院校，具备扎实的理论基础和专业知识，为技术服务提供坚实的人才保障。</p>
+            </div>
+          </div>
+          <div class="qual-card">
+            <div class="qual-icon">&#128188;</div>
+            <div>
+              <h3>深厚行业经验</h3>
+              <p>技术人员在行业内拥有深厚的从业经验，熟悉行业发展动态和技术难点，能够为客户提供专业、高效的技术服务。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" aria-labelledby="contact-title">
+    <div class="container">
+      <div class="section-label" style="background:rgba(255,255,255,.15);color:#fff;">联系我们</div>
+      <h2 class="section-title" id="contact-title">与我们合作</h2>
+      <p class="section-desc">我们期待与优秀的客户和合作伙伴共同推动国产高性能芯片技术的发展与落地。</p>
+      <div class="contact-info">
+        <div class="contact-item">
+          <div class="c-label">公司全称</div>
+          <div class="c-value">北京新翊和技术有限公司</div>
+        </div>
+        <div class="contact-item">
+          <div class="c-label">英文名称</div>
+          <div class="c-value">Beijing Xynex Technology Co., Ltd.</div>
+        </div>
+        <div class="contact-item">
+          <div class="c-label">官方网站</div>
+          <div class="c-value"><a href="https://www.xynex.cn" rel="noopener">www.xynex.cn</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>
+      &copy; 2025 北京新翊和技术有限公司（Xynex）&nbsp;&nbsp;|&nbsp;&nbsp;
+      <a href="https://www.xynex.cn" rel="noopener">www.xynex.cn</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+      京ICP备XXXXXXXX号
+    </p>
+    <p style="margin-top:6px;">芯片开发 &middot; AI算力网络 &middot; 芯片应用 &middot; 定制开发 &middot; 国产高性能网络芯片</p>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('navToggle');
+    const links  = document.getElementById('navLinks');
+    toggle.addEventListener('click', () => {
+      const open = links.classList.toggle('open');
+      toggle.classList.toggle('open', open);
+      toggle.setAttribute('aria-expanded', open);
+      toggle.setAttribute('aria-label', open ? '关闭菜单' : '打开菜单');
+    });
+    // 点击导航项后关闭菜单
+    links.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        links.classList.remove('open');
+        toggle.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.setAttribute('aria-label', '打开菜单');
+      });
+    });
+  </script>
+</body>
+</html>
