@@ -1,861 +1,1471 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>北京新翊和技术有限公司 | 国产高性能网络芯片技术服务 | Xynex</title>
-  <meta name="description" content="北京新翊和技术有限公司（Xynex）专注于国产高性能网络芯片技术研发，提供芯片开发、AI算力网络、芯片应用及定制开发等全栈技术服务。成立于2025年，团队成员均来自985/211院校。">
-  <meta name="keywords" content="北京新翊和技术,Xynex,国产芯片,网络芯片,AI算力网络,芯片开发,芯片验证,FPGA,CPU,NP芯片,SDK开发,芯片国产化,算力网络,定制开发">
-  <meta name="author" content="北京新翊和技术有限公司">
-  <meta name="robots" content="index, follow">
-  <meta name="language" content="zh-CN">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新翊和 XYNex - 国产高性能网络芯片技术服务</title>
+    <link rel="icon" type="image/png" href="logo_white.png">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep: #0a0e1a;
+            --bg-primary: #0a1628;
+            --bg-secondary: #0d1f3c;
+            --bg-card: rgba(13, 31, 60, 0.6);
+            --accent-blue: #60a5fa;
+            --accent-cyan: #22d3ee;
+            --accent-glow: rgba(96, 165, 250, 0.15);
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --silver: #c0c0c0;
+            --border-subtle: rgba(148, 163, 184, 0.12);
+            --border-glow: rgba(96, 165, 250, 0.3);
+        }
 
-  <!-- Open Graph -->
-  <meta property="og:title" content="北京新翊和技术有限公司 | Xynex">
-  <meta property="og:description" content="专注于国产高性能网络芯片技术研发，提供芯片开发、AI算力网络、芯片应用及定制开发全栈技术服务。">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://www.xynex.cn">
-  <meta property="og:locale" content="zh_CN">
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  <!-- Canonical -->
-  <link rel="canonical" href="https://www.xynex.cn">
+        body {
+            font-family: 'Noto Sans SC', 'Inter', sans-serif;
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.7;
+        }
 
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        /* ===== NAVIGATION ===== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 16px 48px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.4s ease;
+            background: transparent;
+        }
 
-    :root {
-      --primary: #0a2540;
-      --accent: #1a73e8;
-      --accent-light: #e8f0fe;
-      --text: #2d3748;
-      --text-secondary: #718096;
-      --bg: #f7fafc;
-      --white: #ffffff;
-      --border: #e2e8f0;
-      --gradient: linear-gradient(135deg, #0a2540 0%, #1a4b8c 60%, #1a73e8 100%);
-    }
+        .navbar.scrolled {
+            background: rgba(10, 14, 26, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 12px 48px;
+        }
 
-    html { scroll-behavior: smooth; }
+        .nav-logo {
+            height: 40px;
+            opacity: 0.9;
+            transition: opacity 0.3s;
+        }
 
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-      color: var(--text);
-      background: var(--white);
-      line-height: 1.7;
-    }
+        .nav-logo:hover {
+            opacity: 1;
+        }
 
-    /* ── NAV ── */
-    nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(255, 255, 255, 0.97);
-      backdrop-filter: blur(8px);
-      border-bottom: 1px solid rgba(26, 115, 232, 0.12);
-      box-shadow: 0 2px 16px rgba(26, 115, 232, 0.08);
-    }
-    .nav-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 24px;
-      height: 72px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .nav-logo {
-      display: flex;
-      align-items: center;
-      text-decoration: none;
-      flex-shrink: 0;
-    }
-    .nav-logo img {
-      height: 56px;
-      width: auto;
-      display: block;
-      clip-path: inset(14% 5% 14% 5%);
-      margin: -8px 0;
-    }
-    .nav-links { display: flex; gap: 32px; list-style: none; }
-    .nav-links a {
-      color: var(--text-secondary);
-      text-decoration: none;
-      font-size: .9rem;
-      transition: color .2s;
-    }
-    .nav-links a:hover { color: var(--primary); }
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+        }
 
-    /* ── HERO ── */
-    .hero {
-      background: linear-gradient(135deg, #e8f2ff 0%, #ddeeff 50%, #eef6ff 100%);
-      color: var(--primary);
-      padding: 100px 24px 90px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-    .hero::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-      pointer-events: none;
-    }
-    .hero-inner { position: relative; max-width: 800px; margin: 0 auto; }
-    .hero-logo {
-      display: block;
-      height: 120px;
-      width: auto;
-      margin: 0 auto 8px;
-      clip-path: inset(12% 3% 12% 3%);
-    }
-    .hero-en {
-      display: inline-block;
-      background: rgba(26, 115, 232, .10);
-      border: 1px solid rgba(26, 115, 232, .20);
-      border-radius: 20px;
-      padding: 4px 18px;
-      font-size: .85rem;
-      letter-spacing: .1em;
-      margin-bottom: 24px;
-      color: var(--accent);
-    }
-    .hero h1 {
-      font-size: clamp(2rem, 5vw, 3.2rem);
-      font-weight: 800;
-      line-height: 1.2;
-      margin-bottom: 16px;
-      letter-spacing: -.01em;
-    }
-    .hero-sub {
-      font-size: clamp(1rem, 2vw, 1.2rem);
-      color: var(--text-secondary);
-      margin-bottom: 40px;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .hero-mission {
-      display: inline-block;
-      background: rgba(26, 115, 232, .08);
-      border: 1px solid rgba(26, 115, 232, .18);
-      border-radius: 12px;
-      padding: 16px 32px;
-      font-size: 1.1rem;
-      font-weight: 600;
-      letter-spacing: .05em;
-      color: var(--primary);
-    }
-    .hero-tags {
-      margin-top: 48px;
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-    .hero-tag {
-      background: rgba(26, 115, 232, .08);
-      border: 1px solid rgba(26, 115, 232, .18);
-      border-radius: 6px;
-      padding: 5px 14px;
-      font-size: .82rem;
-      color: var(--accent);
-    }
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            transition: color 0.3s;
+            position: relative;
+        }
 
-    /* ── SECTION BASE ── */
-    section { padding: 80px 24px; }
-    .container { max-width: 1100px; margin: 0 auto; }
-    .section-label {
-      display: inline-block;
-      background: var(--accent-light);
-      color: var(--accent);
-      font-size: .78rem;
-      font-weight: 700;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      padding: 4px 12px;
-      border-radius: 4px;
-      margin-bottom: 12px;
-    }
-    .section-title {
-      font-size: clamp(1.6rem, 3vw, 2.2rem);
-      font-weight: 800;
-      color: var(--primary);
-      margin-bottom: 12px;
-      line-height: 1.25;
-    }
-    .section-desc {
-      color: var(--text-secondary);
-      font-size: 1rem;
-      max-width: 580px;
-      margin-bottom: 56px;
-    }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent-blue);
+            transition: width 0.3s;
+        }
 
-    /* ── ABOUT ── */
-    #about { background: var(--bg); }
-    .about-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 24px;
-      margin-bottom: 56px;
-    }
-    .about-card {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 28px 24px;
-      text-align: center;
-    }
-    .about-card .label {
-      font-size: .78rem;
-      color: var(--text-secondary);
-      margin-bottom: 8px;
-      letter-spacing: .06em;
-    }
-    .about-card .value {
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: var(--primary);
-    }
-    .about-card .value a {
-      color: var(--accent);
-      text-decoration: none;
-    }
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
 
-    /* ── SERVICES ── */
-    #services { background: var(--white); }
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 28px;
-    }
-    .service-card {
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 32px 28px;
-      transition: box-shadow .25s, transform .25s;
-    }
-    .service-card:hover {
-      box-shadow: 0 12px 40px rgba(26,115,232,.1);
-      transform: translateY(-3px);
-    }
-    .service-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 12px;
-      background: var(--accent-light);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 20px;
-      font-size: 1.4rem;
-    }
-    .service-card h3 {
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: var(--primary);
-      margin-bottom: 12px;
-    }
-    .service-card p {
-      font-size: .9rem;
-      color: var(--text-secondary);
-      line-height: 1.7;
-    }
-    .service-tags {
-      margin-top: 16px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-    .stag {
-      background: var(--bg);
-      color: var(--text-secondary);
-      font-size: .75rem;
-      padding: 3px 10px;
-      border-radius: 4px;
-      border: 1px solid var(--border);
-    }
+        .nav-links a:hover::after {
+            width: 100%;
+        }
 
-    /* ── MISSION ── */
-    #mission { background: var(--bg); }
-    .mission-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 28px;
-    }
-    .mission-card {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 32px 28px;
-    }
-    .mission-num {
-      font-size: 2.5rem;
-      font-weight: 900;
-      color: var(--accent-light);
-      line-height: 1;
-      margin-bottom: 16px;
-    }
-    .mission-card h3 {
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: var(--primary);
-      margin-bottom: 10px;
-    }
-    .mission-quote {
-      font-size: .88rem;
-      color: var(--accent);
-      font-weight: 600;
-      border-left: 3px solid var(--accent);
-      padding-left: 12px;
-      margin-bottom: 12px;
-    }
-    .mission-card p {
-      font-size: .9rem;
-      color: var(--text-secondary);
-      line-height: 1.7;
-    }
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
 
-    /* ── TEAMS ── */
-    #teams { background: var(--white); }
-    .teams-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 28px;
-    }
-    .team-card {
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      overflow: hidden;
-    }
-    .team-header {
-      background: var(--gradient);
-      padding: 24px 24px 20px;
-      color: #fff;
-    }
-    .team-header h3 { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
-    .team-header .lead { font-size: .82rem; opacity: .8; }
-    .team-body { padding: 20px 24px; }
-    .team-body p {
-      font-size: .88rem;
-      color: var(--text-secondary);
-      line-height: 1.7;
-      margin-bottom: 14px;
-    }
-    .team-directions { list-style: none; }
-    .team-directions li {
-      font-size: .85rem;
-      color: var(--text);
-      padding: 5px 0;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      gap: 8px;
-    }
-    .team-directions li:last-child { border-bottom: none; }
-    .team-directions li::before {
-      content: '→';
-      color: var(--accent);
-      flex-shrink: 0;
-    }
+        /* ===== HERO SECTION ===== */
+        .hero {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-    /* ── QUALIFICATIONS ── */
-    #qualifications { background: var(--bg); }
-    .qual-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 24px;
-    }
-    .qual-card {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 28px 24px;
-      display: flex;
-      gap: 16px;
-      align-items: flex-start;
-    }
-    .qual-icon {
-      font-size: 1.8rem;
-      flex-shrink: 0;
-      margin-top: 2px;
-    }
-    .qual-card h3 {
-      font-size: .95rem;
-      font-weight: 700;
-      color: var(--primary);
-      margin-bottom: 6px;
-    }
-    .qual-card p {
-      font-size: .88rem;
-      color: var(--text-secondary);
-      line-height: 1.6;
-    }
+        #three-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
 
-    /* ── CONTACT ── */
-    #contact {
-      background: var(--gradient);
-      color: #fff;
-      text-align: center;
-    }
-    #contact .section-title { color: #fff; }
-    #contact .section-desc { color: rgba(255,255,255,.8); max-width: 100%; }
-    .contact-info {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 32px;
-      margin-top: 40px;
-    }
-    .contact-item {
-      background: rgba(255,255,255,.1);
-      border: 1px solid rgba(255,255,255,.15);
-      border-radius: 12px;
-      padding: 20px 32px;
-    }
-    .contact-item .c-label {
-      font-size: .78rem;
-      opacity: .7;
-      letter-spacing: .08em;
-      margin-bottom: 6px;
-    }
-    .contact-item .c-value {
-      font-size: 1rem;
-      font-weight: 600;
-    }
-    .contact-item .c-value a {
-      color: #fff;
-      text-decoration: none;
-    }
+        .hero-bg-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.35;
+            z-index: 2;
+        }
 
-    /* ── FOOTER ── */
-    footer {
-      background: #050f1e;
-      color: rgba(255,255,255,.5);
-      text-align: center;
-      padding: 28px 24px;
-      font-size: .82rem;
-    }
-    footer a { color: rgba(255,255,255,.6); text-decoration: none; }
-    footer a:hover { color: #fff; }
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, rgba(10, 22, 40, 0.3) 0%, rgba(10, 14, 26, 0.85) 70%);
+            z-index: 3;
+        }
 
-    /* ── HAMBURGER BUTTON ── */
-    .nav-toggle {
-      display: none;
-      flex-direction: column;
-      justify-content: center;
-      gap: 5px;
-      width: 36px;
-      height: 36px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 4px;
-      border-radius: 6px;
-      transition: background .2s;
-    }
-    .nav-toggle:hover { background: rgba(26, 115, 232, .1); }
-    .nav-toggle span {
-      display: block;
-      width: 100%;
-      height: 2px;
-      background: var(--primary);
-      border-radius: 2px;
-      transition: transform .3s, opacity .3s;
-    }
-    .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-    .nav-toggle.open span:nth-child(2) { opacity: 0; }
-    .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 0 24px;
+            max-width: 900px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-    /* ── RESPONSIVE — tablet (≤900px) ── */
-    @media (max-width: 900px) {
-      .services-grid,
-      .teams-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      .mission-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
+        .hero-logo {
+            width: 380px;
+            max-width: 80vw;
+            margin-bottom: 32px;
+            filter: drop-shadow(0 0 60px rgba(96, 165, 250, 0.2));
+            animation: logoFloat 6s ease-in-out infinite;
+        }
 
-    /* ── RESPONSIVE — mobile (≤640px) ── */
-    @media (max-width: 640px) {
-      /* Nav */
-      .nav-toggle { display: flex; }
-      .nav-links {
-        display: none;
-        position: absolute;
-        top: 72px;
-        left: 0;
-        right: 0;
-        flex-direction: column;
-        gap: 0;
-        background: rgba(255, 255, 255, 0.98);
-        border-top: 1px solid rgba(26, 115, 232, .12);
-        box-shadow: 0 8px 24px rgba(26, 115, 232, .1);
-        padding: 8px 0 16px;
-        z-index: 99;
-      }
-      .nav-links.open { display: flex; }
-      .nav-links li { width: 100%; }
-      .nav-links a {
-        display: block;
-        padding: 12px 24px;
-        font-size: 1rem;
-        border-bottom: 1px solid rgba(26, 115, 232, .08);
-      }
-      .nav-links li:last-child a { border-bottom: none; }
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
 
-      /* Hero */
-      .hero { padding: 64px 20px 52px; }
-      .hero-en { font-size: .75rem; letter-spacing: .07em; }
-      .hero-mission { padding: 12px 20px; font-size: 1rem; }
-      .hero-tags { gap: 8px; margin-top: 32px; }
+        .hero-title {
+            font-size: 2.8rem;
+            font-weight: 300;
+            color: var(--text-primary);
+            letter-spacing: 8px;
+            margin-bottom: 48px;
+            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+        }
 
-      /* Sections */
-      section { padding: 56px 20px; }
-      .section-desc { margin-bottom: 36px; }
+        .hero-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+            letter-spacing: 3px;
+            margin-bottom: 48px;
+        }
 
-      /* About */
-      .about-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
-        margin-bottom: 32px;
-      }
-      .about-card { padding: 20px 16px; }
-      .about-card:last-child {
-        grid-column: 1 / -1;
-      }
+        .hero-tagline {
+            font-size: 1rem;
+            color: var(--accent-blue);
+            letter-spacing: 4px;
+            font-weight: 400;
+            border-top: 1px solid var(--border-glow);
+            padding-top: 24px;
+        }
 
-      /* Mission card inline style box */
-      div[style*="max-width:780px"] {
-        padding: 24px 20px !important;
-      }
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            animation: bounce 2s infinite;
+            cursor: pointer;
+        }
 
-      /* Services */
-      .services-grid,
-      .teams-grid,
-      .mission-grid {
-        grid-template-columns: 1fr;
-        gap: 16px;
-      }
-      .service-card { padding: 24px 20px; }
-      .mission-card { padding: 24px 20px; }
+        .scroll-indicator span {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+        }
 
-      /* Teams */
-      .team-body { padding: 16px 20px; }
+        .scroll-line {
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, var(--accent-blue), transparent);
+        }
 
-      /* Qualifications */
-      .qual-grid { grid-template-columns: 1fr; gap: 16px; }
-      .qual-card { padding: 20px 16px; }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
 
-      /* Contact */
-      .contact-info { flex-direction: column; gap: 16px; }
-      .contact-item {
-        padding: 16px 20px;
-        width: 100%;
-        text-align: left;
-      }
-      .contact-item .c-value { font-size: .95rem; word-break: break-all; }
+        /* ===== SECTIONS COMMON ===== */
+        .section {
+            position: relative;
+            padding: 120px 48px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
 
-      /* Footer */
-      footer { font-size: .78rem; line-height: 1.8; }
-    }
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
 
-    /* ── RESPONSIVE — very small (≤380px) ── */
-    @media (max-width: 380px) {
-      .about-grid { grid-template-columns: 1fr; }
-      .about-card:last-child { grid-column: auto; }
-      .hero h1 { font-size: 1.7rem; }
-    }
-  </style>
+        .section-label {
+            font-size: 0.8rem;
+            color: var(--accent-blue);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
 
-  <!-- Structured Data: Organization -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "北京新翊和技术有限公司",
-    "alternateName": ["新翊和", "Xynex"],
-    "url": "https://www.xynex.cn",
-    "foundingDate": "2025",
-    "foundingLocation": {
-      "@type": "Place",
-      "name": "北京",
-      "addressCountry": "CN"
-    },
-    "description": "专注于国产高性能网络芯片技术研发，提供芯片开发、AI算力网络、芯片应用及定制开发等全栈技术服务。",
-    "knowsAbout": [
-      "芯片开发", "FPGA验证", "AI算力网络", "芯片国产化", "SDK开发", "定制开发"
-    ],
-    "slogan": "创新为本，翊举高飞，和合共盛"
-  }
-  </script>
+        .section-title {
+            font-size: 2.4rem;
+            font-weight: 300;
+            color: var(--text-primary);
+            letter-spacing: 4px;
+            margin-bottom: 20px;
+        }
 
-  <!-- Structured Data: WebSite -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "北京新翊和技术有限公司",
-    "url": "https://www.xynex.cn"
-  }
-  </script>
+        .section-desc {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* ===== ABOUT SECTION ===== */
+        .about-section {
+            background: linear-gradient(180deg, var(--bg-deep) 0%, var(--bg-primary) 100%);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: start;
+        }
+
+        .about-info {
+            display: flex;
+            flex-direction: column;
+            gap: 48px;
+        }
+
+        .info-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            padding: 36px;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s ease;
+        }
+
+        .info-card:hover {
+            border-color: var(--border-glow);
+            box-shadow: 0 0 40px var(--accent-glow);
+        }
+
+        .info-card h3 {
+            font-size: 1.1rem;
+            color: var(--accent-blue);
+            margin-bottom: 20px;
+            font-weight: 500;
+            letter-spacing: 2px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .info-value {
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .service-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 28px;
+            transition: all 0.4s ease;
+            cursor: default;
+        }
+
+        .service-card:hover {
+            border-color: var(--border-glow);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 32px rgba(96, 165, 250, 0.1);
+        }
+
+        .service-card h4 {
+            color: var(--accent-cyan);
+            font-size: 1rem;
+            margin-bottom: 12px;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+
+        .service-card p {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            line-height: 1.7;
+        }
+
+        .about-visual {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .about-visual img {
+            width: 100%;
+            max-width: 420px;
+            opacity: 0.7;
+            filter: drop-shadow(0 0 40px rgba(96, 165, 250, 0.15));
+        }
+
+        .glow-orb {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(96, 165, 250, 0.15) 0%, transparent 70%);
+            filter: blur(40px);
+            animation: orbPulse 4s ease-in-out infinite;
+        }
+
+        @keyframes orbPulse {
+            0%, 100% { transform: scale(1); opacity: 0.6; }
+            50% { transform: scale(1.2); opacity: 0.9; }
+        }
+
+        /* ===== BACKGROUND SECTION ===== */
+        .background-section {
+            background: var(--bg-primary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .background-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(96, 165, 250, 0.05) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            margin-bottom: 80px;
+        }
+
+        .value-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            padding: 40px 32px;
+            text-align: center;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .value-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-blue), transparent);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .value-card:hover::before {
+            opacity: 1;
+        }
+
+        .value-card:hover {
+            border-color: var(--border-glow);
+            transform: translateY(-6px);
+            box-shadow: 0 12px 40px rgba(96, 165, 250, 0.08);
+        }
+
+        .value-icon {
+            width: 56px;
+            height: 56px;
+            margin: 0 auto 24px;
+            border: 1px solid var(--border-glow);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--accent-blue);
+            background: rgba(96, 165, 250, 0.05);
+        }
+
+        .value-card h3 {
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            font-weight: 500;
+        }
+
+        .value-card p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* Mission & Vision Banner */
+        .mission-banner {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 20px;
+            padding: 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .mission-banner::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-blue), transparent);
+        }
+
+        .mission-text {
+            font-size: 1.8rem;
+            color: var(--text-primary);
+            font-weight: 300;
+            letter-spacing: 6px;
+            margin-bottom: 20px;
+        }
+
+        .mission-sub {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* ===== VIDEO SECTION ===== */
+        .video-section {
+            position: relative;
+            padding: 0;
+            max-width: 100%;
+            height: 500px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .video-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.4;
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 14, 26, 0.7);
+        }
+
+        .video-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 0 24px;
+        }
+
+        .video-title {
+            font-size: 2rem;
+            font-weight: 300;
+            letter-spacing: 6px;
+            margin-bottom: 16px;
+        }
+
+        .video-desc {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ===== TEAM SECTION ===== */
+        .team-section {
+            background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-deep) 100%);
+        }
+
+        .team-stats {
+            display: flex;
+            justify-content: center;
+            gap: 80px;
+            margin-bottom: 80px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            color: var(--accent-blue);
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 8px;
+            letter-spacing: 1px;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 32px;
+        }
+
+        .team-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            padding: 40px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .team-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--accent-blue), var(--accent-cyan));
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .team-card:hover::before {
+            opacity: 1;
+        }
+
+        .team-card:hover {
+            border-color: var(--border-glow);
+            box-shadow: 0 8px 40px rgba(96, 165, 250, 0.1);
+        }
+
+        .team-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+
+        .team-info h3 {
+            font-size: 1.3rem;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+
+        .team-lead {
+            font-size: 0.85rem;
+            color: var(--accent-cyan);
+            letter-spacing: 1px;
+        }
+
+        .team-tag {
+            background: rgba(96, 165, 250, 0.1);
+            border: 1px solid var(--border-glow);
+            color: var(--accent-blue);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+        }
+
+        .team-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 24px;
+        }
+
+        .team-services {
+            list-style: none;
+        }
+
+        .team-services li {
+            padding: 8px 0;
+            padding-left: 20px;
+            position: relative;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .team-services li:last-child {
+            border-bottom: none;
+        }
+
+        .team-services li::before {
+            content: '›';
+            position: absolute;
+            left: 0;
+            color: var(--accent-blue);
+            font-size: 1rem;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: var(--bg-deep);
+            border-top: 1px solid var(--border-subtle);
+            padding: 60px 48px 40px;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+
+        .footer-brand {
+            flex: 1;
+            min-width: 280px;
+        }
+
+        .footer-brand img {
+            height: 48px;
+            margin-bottom: 20px;
+            opacity: 0.8;
+        }
+
+        .footer-brand p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            line-height: 1.8;
+            max-width: 320px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 60px;
+        }
+
+        .footer-col h4 {
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            font-weight: 500;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col li {
+            margin-bottom: 12px;
+        }
+
+        .footer-col a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.3s;
+        }
+
+        .footer-col a:hover {
+            color: var(--accent-blue);
+        }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 40px auto 0;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-subtle);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .footer-bottom p {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        /* ===== SCROLL ANIMATIONS ===== */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .fade-left {
+            opacity: 0;
+            transform: translateX(-40px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .fade-right {
+            opacity: 0;
+            transform: translateX(40px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .stagger-1 { transition-delay: 0.1s; }
+        .stagger-2 { transition-delay: 0.2s; }
+        .stagger-3 { transition-delay: 0.3s; }
+        .stagger-4 { transition-delay: 0.4s; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 60px;
+            }
+
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .team-stats {
+                gap: 40px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 16px 24px;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(10, 14, 26, 0.95);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 24px;
+                gap: 20px;
+                border-bottom: 1px solid var(--border-subtle);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .section {
+                padding: 80px 24px;
+            }
+
+            .hero-title {
+                font-size: 1.8rem;
+                letter-spacing: 4px;
+            }
+
+            .hero-logo {
+                width: 280px;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .mission-banner {
+                padding: 36px 24px;
+            }
+
+            .mission-text {
+                font-size: 1.3rem;
+                letter-spacing: 3px;
+            }
+
+            .team-stats {
+                flex-direction: column;
+                gap: 32px;
+            }
+
+            .footer-content {
+                flex-direction: column;
+            }
+
+            .footer-links {
+                gap: 40px;
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 1.4rem;
+            }
+
+            .hero-subtitle {
+                font-size: 0.9rem;
+            }
+
+            .hero-logo {
+                width: 220px;
+            }
+
+            .info-card {
+                padding: 24px;
+            }
+
+            .team-card {
+                padding: 28px 24px;
+            }
+
+            .video-section {
+                height: 400px;
+            }
+        }
+    </style>
 </head>
-
 <body>
 
-  <!-- NAV -->
-  <nav aria-label="主导航">
-    <div class="nav-inner">
-      <a class="nav-logo" href="#top">
-        <img src="XYNEX_LOGO.png" alt="新翊和 Xynex">
-      </a>
-      <button class="nav-toggle" id="navToggle" aria-label="打开菜单" aria-expanded="false" aria-controls="navLinks">
-        <span></span><span></span><span></span>
-      </button>
-      <ul class="nav-links" id="navLinks">
-        <li><a href="#about">公司简介</a></li>
-        <li><a href="#services">核心业务</a></li>
-        <li><a href="#mission">创立初心</a></li>
+    <!-- NAVIGATION -->
+    <nav class="navbar" id="navbar">
+        <img src="logo_white.png" alt="新翊和 XYNex" class="nav-logo">
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#home">首页</a></li>
+            <li><a href="#about">公司简介</a></li>
+            <li><a href="#background">创立背景</a></li>
+            <li><a href="#team">技术团队</a></li>
+            <li><a href="#contact">联系我们</a></li>
+        </ul>
+        <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+    </nav>
 
-        <li><a href="#contact">联系我们</a></li>
-      </ul>
-    </div>
-  </nav>
-
-  <!-- HERO -->
-  <header id="top" class="hero" role="banner">
-    <div class="hero-inner">
-      <img class="hero-logo" src="XYNEX_LOGO.png" alt="新翊和 Xynex">
-      <div class="hero-en">BEIJING XYNEX TECHNOLOGY</div>
-      <h1>北京新翊和技术有限公司</h1>
-      <p class="hero-sub">专注于国产高性能网络芯片技术研发，推动算力网络与通信网络的国产化进程</p>
-      <div class="hero-mission">创新为本，翊举高飞，和合共盛</div>
-      <div class="hero-tags">
-        <span class="hero-tag">芯片开发</span>
-        <span class="hero-tag">AI算力网络</span>
-        <span class="hero-tag">芯片验证</span>
-        <span class="hero-tag">SDK开发</span>
-        <span class="hero-tag">定制开发</span>
-        <span class="hero-tag">国产芯片</span>
-      </div>
-    </div>
-  </header>
-
-  <!-- ABOUT -->
-  <section id="about" aria-labelledby="about-title">
-    <div class="container">
-      <div class="section-label">公司简介</div>
-      <h2 class="section-title" id="about-title">关于新翊和</h2>
-      <p class="section-desc">北京新翊和技术有限公司（Xynex）是一家聚焦国产高性能网络芯片领域的技术服务公司，核心团队来自顶尖院校与头部芯片企业，具备深厚的行业积累与研发实力。</p>
-
-      <div class="about-grid">
-        <div class="about-card">
-          <div class="label">成立时间</div>
-          <div class="value">2025 年</div>
+    <!-- HERO SECTION -->
+    <section class="hero" id="home">
+        <canvas id="three-canvas"></canvas>
+        <img src="chip_hero_bg.jpg" alt="" class="hero-bg-img">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <img src="logo_white.png" alt="新翊和 XYNex" class="hero-logo">
+            <h1 class="hero-title">北京新翊和技术有限公司</h1>
+            <p class="hero-tagline">创新为本 · 翊举高飞 · 和合共盛</p>
         </div>
-        <div class="about-card">
-          <div class="label">中文简称</div>
-          <div class="value">新翊和</div>
+        <div class="scroll-indicator" onclick="document.getElementById('about').scrollIntoView({behavior: 'smooth'})">
+            <span>SCROLL</span>
+            <div class="scroll-line"></div>
         </div>
-        <div class="about-card">
-          <div class="label">英文简称</div>
-          <div class="value">Xynex</div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section class="section about-section" id="about">
+        <div class="section-header fade-up">
+            <p class="section-label">About Us</p>
+            <h2 class="section-title">公司简介</h2>
+            <p class="section-desc">北京新翊和技术有限公司成立于2025年，专注于国产高性能网络芯片的技术研发</p>
         </div>
-        <div class="about-card">
-          <div class="label">注册地址</div>
-          <div class="value">北京市</div>
+
+        <div class="about-grid">
+            <div class="about-info">
+                <div class="info-card fade-up">
+                    <h3>公司基本信息</h3>
+                    <div class="info-row">
+                        <span class="info-label">中文简称</span>
+                        <span class="info-value">新翊和</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">英文简称</span>
+                        <span class="info-value">Xynex</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">成立时间</span>
+                        <span class="info-value">2025年</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">公司官网</span>
+                        <span class="info-value">www.xynex.cn</span>
+                    </div>
+                </div>
+
+                <div class="services-grid">
+                    <div class="service-card fade-up stagger-1">
+                        <h4>芯片开发技术服务</h4>
+                        <p>专注于国产高性能网络芯片的技术研发，为客户提供芯片设计、验证等相关技术支持，助力芯片国产化进程。</p>
+                    </div>
+                    <div class="service-card fade-up stagger-2">
+                        <h4>AI算力网络技术服务</h4>
+                        <p>面向算力网络领域，提供AI算力网络相关的技术开发服务，满足不同场景下的算力网络建设需求。</p>
+                    </div>
+                    <div class="service-card fade-up stagger-3">
+                        <h4>芯片应用技术服务</h4>
+                        <p>围绕芯片提供SDK、微码、编译器等开发服务和客户支持，提供从芯片选型到应用落地的全流程服务。</p>
+                    </div>
+                    <div class="service-card fade-up stagger-4">
+                        <h4>定制开发技术服务</h4>
+                        <p>为客户提供从芯片选型、软硬件开发验证到应用落地的全流程技术服务，实现定制化需求。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="about-visual fade-right">
+                <div class="glow-orb"></div>
+                <img src="chip_illustration_1.png" alt="芯片技术">
+            </div>
         </div>
-        <div class="about-card">
-          <div class="label">官方网站</div>
-          <div class="value"><a href="https://www.xynex.cn" rel="noopener">www.xynex.cn</a></div>
+    </section>
+
+    <!-- BACKGROUND & MISSION SECTION -->
+    <section class="section background-section" id="background">
+        <div class="section-header fade-up">
+            <p class="section-label">Founding Story</p>
+            <h2 class="section-title">创立背景与初衷</h2>
+            <p class="section-desc">秉持初心，以技术创新驱动国产芯片产业腾飞</p>
         </div>
-      </div>
 
-      <div style="background:var(--white);border:1px solid var(--border);border-radius:14px;padding:32px 36px;max-width:780px;">
-        <h3 style="font-size:1.05rem;font-weight:700;color:var(--primary);margin-bottom:14px;">公司使命与愿景</h3>
-        <p style="color:var(--text-secondary);font-size:.95rem;line-height:1.8;">
-          核心业务面向<strong>算力网络、通信网络芯片的国产化方向</strong>，提供软硬件开发全栈技术方案。凭借专业技术之力，助力客户把握新时代发展机遇，实现和合共生，共创繁荣。
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- SERVICES -->
-  <section id="services" aria-labelledby="services-title">
-    <div class="container">
-      <div class="section-label">核心业务</div>
-      <h2 class="section-title" id="services-title">四大技术服务领域</h2>
-      <p class="section-desc">全面覆盖芯片从设计到应用的全生命周期，为客户提供一站式专业技术支持。</p>
-
-      <div class="services-grid">
-        <article class="service-card">
-          <div class="service-icon">&#129520;</div>
-          <h3>芯片开发技术服务</h3>
-          <p>专注于国产高性能网络芯片的技术研发，为客户提供芯片设计、验证等相关技术支持，助力芯片国产化进程。</p>
-          <div class="service-tags">
-            <span class="stag">芯片设计</span>
-            <span class="stag">FPGA验证</span>
-            <span class="stag">EMU验证</span>
-            <span class="stag">EDA工具</span>
-            <span class="stag">CPU/NP芯片</span>
-          </div>
-        </article>
-
-        <article class="service-card">
-          <div class="service-icon">&#9889;</div>
-          <h3>AI算力网络技术服务</h3>
-          <p>面向算力网络领域，提供AI算力网络相关的技术开发服务，满足不同场景下的算力网络建设需求。</p>
-          <div class="service-tags">
-            <span class="stag">Scale-Up网络</span>
-            <span class="stag">Scale-Out网络</span>
-            <span class="stag">GPU互联</span>
-            <span class="stag">AI集群</span>
-            <span class="stag">性能调优</span>
-          </div>
-        </article>
-
-        <article class="service-card">
-          <div class="service-icon">&#128187;</div>
-          <h3>芯片应用技术服务</h3>
-          <p>围绕芯片提供SDK、微码、编译器等开发服务和客户支持，降低客户二次开发门槛。</p>
-          <div class="service-tags">
-            <span class="stag">SDK开发</span>
-            <span class="stag">微码开发</span>
-            <span class="stag">编译器</span>
-            <span class="stag">固件开发</span>
-            <span class="stag">性能优化</span>
-          </div>
-        </article>
-
-        <article class="service-card">
-          <div class="service-icon">&#128295;</div>
-          <h3>定制开发技术服务</h3>
-          <p>为客户提供从芯片选型、软硬件开发验证到应用落地的全流程技术服务，覆盖企业、互联网、运营商、海外等多场景。</p>
-          <div class="service-tags">
-            <span class="stag">芯片选型</span>
-            <span class="stag">硬件开发</span>
-            <span class="stag">准入验证</span>
-            <span class="stag">市场适配</span>
-            <span class="stag">全栈方案</span>
-          </div>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- MISSION -->
-  <section id="mission" aria-labelledby="mission-title">
-    <div class="container">
-      <div class="section-label">创立背景与初衷</div>
-      <h2 class="section-title" id="mission-title">创始人的初心</h2>
-      <p class="section-desc">三个核心理念驱动新翊和的创立与发展。</p>
-
-      <div class="mission-grid">
-        <article class="mission-card">
-          <div class="mission-num">01</div>
-          <h3>赋能科技人才成长</h3>
-          <div class="mission-quote">纵科技人才再远一程</div>
-          <p>秉持此理念，致力于为科技人才提供广阔的发展平台与成长空间，助力其在技术领域深耕探索，实现个人价值与行业突破。</p>
-        </article>
-
-        <article class="mission-card">
-          <div class="mission-num">02</div>
-          <h3>推动科技创新共生</h3>
-          <div class="mission-quote">促科技创新和合共生</div>
-          <p>践行这一使命，聚焦国产高性能网络芯片研发，通过技术创新与产业协同，推动算力网络、通信网络领域的国产化发展，实现与客户及行业的共同繁荣。</p>
-        </article>
-
-        <article class="mission-card">
-          <div class="mission-num">03</div>
-          <h3>凝聚卓越团队力量</h3>
-          <div class="mission-quote">引卓越团队再宽一界</div>
-          <p>以此为目标，吸引并汇聚行业顶尖人才，打造具有创新活力与协作精神的专业团队，拓展技术边界与发展维度。</p>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- TEAMS -->
-  <!-- TEAM QUALIFICATIONS -->
-  <section id="qualifications" aria-labelledby="qual-title">
-    <div class="container">
-      <div class="section-label">团队实力</div>
-      <h2 class="section-title" id="qual-title">团队综合实力</h2>
-      <div class="qual-grid">
-        <div class="qual-card">
-          <div class="qual-icon">&#127891;</div>
-          <div>
-            <h3>优质人才来源</h3>
-            <p>所有技术人员均来自985/211院校，具备扎实的理论基础和专业知识，为技术服务提供坚实的人才保障。</p>
-          </div>
+        <div class="values-grid">
+            <div class="value-card fade-up stagger-1">
+                <div class="value-icon">◆</div>
+                <h3>赋能科技人才成长</h3>
+                <p>秉持"纵科技人才再远一程"的理念，致力于为科技人才提供广阔的发展平台与成长空间，助力其在技术领域深耕探索，实现个人价值与行业突破。</p>
+            </div>
+            <div class="value-card fade-up stagger-2">
+                <div class="value-icon">◈</div>
+                <h3>推动科技创新共生</h3>
+                <p>践行"促科技创新和合共生"的使命，聚焦国产高性能网络芯片研发，通过技术创新与产业协同，推动算力网络、通信网络领域的国产化发展。</p>
+            </div>
+            <div class="value-card fade-up stagger-3">
+                <div class="value-icon">◇</div>
+                <h3>凝聚卓越团队力量</h3>
+                <p>以"引卓越团队再宽一界"为目标，吸引并汇聚行业顶尖人才，打造具有创新活力与协作精神的专业团队，拓展技术边界与发展维度。</p>
+            </div>
         </div>
-        <div class="qual-card">
-          <div class="qual-icon">&#128188;</div>
-          <div>
-            <h3>深厚行业经验</h3>
-            <p>技术人员在行业内拥有深厚的从业经验，熟悉行业发展动态和技术难点，能够为客户提供专业、高效的技术服务。</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- CONTACT -->
-  <section id="contact" aria-labelledby="contact-title">
-    <div class="container">
-      <div class="section-label" style="background:rgba(255,255,255,.15);color:#fff;">联系我们</div>
-      <h2 class="section-title" id="contact-title">与我们合作</h2>
-      <p class="section-desc">我们期待与优秀的客户和合作伙伴共同推动国产高性能芯片技术的发展与落地。</p>
-      <div class="contact-info">
-        <div class="contact-item">
-          <div class="c-label">公司全称</div>
-          <div class="c-value">北京新翊和技术有限公司</div>
+        <div class="mission-banner fade-up">
+            <p class="mission-text">"创新为本，翊举高飞，和合共盛"</p>
+            <p class="mission-sub">面向算力网络、通信网络芯片的国产化方向，提供软硬件开发全栈技术方案。凭借专业技术之力，助力客户把握新时代发展机遇，实现和合共生，共创繁荣。</p>
         </div>
-        <div class="contact-item">
-          <div class="c-label">英文名称</div>
-          <div class="c-value">Beijing Xynex Technology Co., Ltd.</div>
-        </div>
-        <div class="contact-item">
-          <div class="c-label">官方网站</div>
-          <div class="c-value"><a href="https://www.xynex.cn" rel="noopener">www.xynex.cn</a></div>
-        </div>
-        <div class="contact-item">
-          <div class="c-label">联系邮箱</div>
-          <div class="c-value"><a href="mailto:kyon.hou@xynex.cn">kyon.hou@xynex.cn</a></div>
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- FOOTER -->
-  <footer>
-    <p>
-      &copy; 2025 北京新翊和技术有限公司（Xynex）&nbsp;&nbsp;|&nbsp;&nbsp;
-      <a href="https://www.xynex.cn" rel="noopener">www.xynex.cn</a>&nbsp;&nbsp;|&nbsp;&nbsp;
-      京ICP备XXXXXXXX号
-    </p>
-    <p style="margin-top:6px;">芯片开发 &middot; AI算力网络 &middot; 芯片应用 &middot; 定制开发 &middot; 国产高性能网络芯片</p>
-  </footer>
+    <!-- VIDEO SECTION -->
+    <section class="video-section">
+        <video class="video-bg" autoplay muted loop playsinline>
+            <source src="chip_video_bg.mp4" type="video/mp4">
+        </video>
+        <div class="video-overlay"></div>
+        <div class="video-content fade-up">
+            <h2 class="video-title">驱动算力网络芯未来</h2>
+            <p class="video-desc">以国产高性能网络芯片为核心，构建AI算力网络技术生态，赋能千行百业数字化转型</p>
+        </div>
+    </section>
 
-  <script>
-    const toggle = document.getElementById('navToggle');
-    const links  = document.getElementById('navLinks');
-    toggle.addEventListener('click', () => {
-      const open = links.classList.toggle('open');
-      toggle.classList.toggle('open', open);
-      toggle.setAttribute('aria-expanded', open);
-      toggle.setAttribute('aria-label', open ? '关闭菜单' : '打开菜单');
-    });
-    // 点击导航项后关闭菜单
-    links.querySelectorAll('a').forEach(a => {
-      a.addEventListener('click', () => {
-        links.classList.remove('open');
-        toggle.classList.remove('open');
-        toggle.setAttribute('aria-expanded', 'false');
-        toggle.setAttribute('aria-label', '打开菜单');
-      });
-    });
-  </script>
+    <!-- TEAM SECTION -->
+    <section class="section team-section" id="team">
+        <div class="section-header fade-up">
+            <p class="section-label">Our Team</p>
+            <h2 class="section-title">核心技术团队</h2>
+            <p class="section-desc">汇聚行业顶尖人才，深耕国产芯片技术研发与应用</p>
+        </div>
+
+        <div class="team-stats fade-up">
+            <div class="stat-item">
+                <div class="stat-number">985/211</div>
+                <div class="stat-label">优质人才来源</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">20+</div>
+                <div class="stat-label">年行业经验</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">4</div>
+                <div class="stat-label">核心技术团队</div>
+            </div>
+        </div>
+
+        <div class="team-grid">
+            <div class="team-card fade-up stagger-1">
+                <div class="team-header">
+                    <div class="team-info">
+                        <h3>芯片开发技术团队</h3>
+                        <p class="team-lead">技术负责人：Min</p>
+                    </div>
+                    <span class="team-tag">前端开发</span>
+                </div>
+                <p class="team-desc">拥有超过二十年行业经验的国内知名芯片公司前端开发专家和项目管理专家。从事过CPU、FPGA、NP等多种类型大型芯片的开发。</p>
+                <ul class="team-services">
+                    <li>提供芯片设计服务</li>
+                    <li>提供芯片验证专家服务，包括EDA，以及EMU和FPGA验证服务</li>
+                    <li>提供网络芯片产品化系统业务验证服务</li>
+                </ul>
+            </div>
+
+            <div class="team-card fade-up stagger-2">
+                <div class="team-header">
+                    <div class="team-info">
+                        <h3>AI 算力网络技术团队</h3>
+                        <p class="team-lead">技术负责人：Elise</p>
+                    </div>
+                    <span class="team-tag">算力网络</span>
+                </div>
+                <p class="team-desc">AI 算力网络的资深架构和方案专家。在Scale-Up和Scale-Out网络新技术方面有深度研究和成功实践。</p>
+                <ul class="team-services">
+                    <li>联接GPU和网络芯片，形成AI 高效网络</li>
+                    <li>超级节点技术方向和AI服务器集群</li>
+                    <li>AI 算力网络性能调优和维护</li>
+                </ul>
+            </div>
+
+            <div class="team-card fade-up stagger-3">
+                <div class="team-header">
+                    <div class="team-info">
+                        <h3>芯片应用开发团队</h3>
+                        <p class="team-lead">技术负责人：Ethan</p>
+                    </div>
+                    <span class="team-tag">应用开发</span>
+                </div>
+                <p class="team-desc">数据通信领域的资深专家，精通各类芯片的系统关键技术，在软硬件技术方案落地和性能调优方面积累深厚。</p>
+                <ul class="team-services">
+                    <li>芯片固件、编译器、SDK、微码等配套开发</li>
+                    <li>基于不同场景的深度性能优化和业务定制</li>
+                </ul>
+            </div>
+
+            <div class="team-card fade-up stagger-4">
+                <div class="team-header">
+                    <div class="team-info">
+                        <h3>定制开发技术团队</h3>
+                        <p class="team-lead">技术负责人：Vicky</p>
+                    </div>
+                    <span class="team-tag">定制开发</span>
+                </div>
+                <p class="team-desc">数据通信领域的资深专家，成功带领过数十款中高端网络设备的软硬件开发，对企业、互联网、运营商、海外业务应用场景都有过成功的产品落地经验。</p>
+                <ul class="team-services">
+                    <li>基于客户产品化需求，提供围绕网络芯片的软硬件开发和验证服务</li>
+                    <li>配合客户实现目标市场的准入验证和优化</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer" id="contact">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <img src="logo_white.png" alt="新翊和 XYNex">
+                <p>北京新翊和技术有限公司致力于国产高性能网络芯片的技术研发与应用，为算力网络、通信网络领域提供全栈技术方案。</p>
+            </div>
+            <div class="footer-links">
+                <div class="footer-col">
+                    <h4>导航</h4>
+                    <ul>
+                        <li><a href="#home">首页</a></li>
+                        <li><a href="#about">公司简介</a></li>
+                        <li><a href="#background">创立背景</a></li>
+                        <li><a href="#team">技术团队</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>业务领域</h4>
+                    <ul>
+                        <li><a href="#about">芯片开发技术</a></li>
+                        <li><a href="#about">AI算力网络</a></li>
+                        <li><a href="#about">芯片应用开发</a></li>
+                        <li><a href="#about">定制开发服务</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>联系方式</h4>
+                    <ul>
+                        <li><a href="#"> kyon.hou@xynex.cn</a></li>
+                        <li><a href="#">北京市中关村集成电路设计园</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 北京新翊和技术有限公司 XYNex. All Rights Reserved.</p>
+            <p><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer" style="color: var(--text-muted); text-decoration: none;">京ICP备2026020106号</a></p>
+            <p>创新为本 · 翊举高飞 · 和合共盛</p>
+        </div>
+    </footer>
+
+    <script>
+        // ===== THREE.JS 3D CHIP EFFECT =====
+        const initThreeJS = () => {
+            const canvas = document.getElementById('three-canvas');
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+            // Create chip body (flattened box with metallic material)
+            const chipGeometry = new THREE.BoxGeometry(3.5, 0.25, 3.5);
+            const chipMaterial = new THREE.MeshStandardMaterial({
+                color: 0x2a3a5c,
+                metalness: 0.7,
+                roughness: 0.3,
+                emissive: 0x0a1628,
+                emissiveIntensity: 0.3
+            });
+            const chip = new THREE.Mesh(chipGeometry, chipMaterial);
+            scene.add(chip);
+
+            // Create chip top surface detail
+            const topGeometry = new THREE.PlaneGeometry(2.8, 2.8);
+            const topMaterial = new THREE.MeshStandardMaterial({
+                color: 0x1e2d4a,
+                metalness: 0.9,
+                roughness: 0.2,
+                emissive: 0x1a365d,
+                emissiveIntensity: 0.2
+            });
+            const chipTop = new THREE.Mesh(topGeometry, topMaterial);
+            chipTop.rotation.x = -Math.PI / 2;
+            chipTop.position.y = 0.13;
+            chip.add(chipTop);
+
+            // Create pins around the chip
+            const pinGeometry = new THREE.BoxGeometry(0.15, 0.15, 0.6);
+            const pinMaterial = new THREE.MeshStandardMaterial({
+                color: 0xc0c0c0,
+                metalness: 0.95,
+                roughness: 0.1
+            });
+
+            const createPins = (side, count, spacing) => {
+                for (let i = 0; i < count; i++) {
+                    const pin = new THREE.Mesh(pinGeometry, pinMaterial);
+                    const offset = (i - (count - 1) / 2) * spacing;
+                    if (side === 'front') {
+                        pin.position.set(offset, 0, 1.9);
+                    } else if (side === 'back') {
+                        pin.position.set(offset, 0, -1.9);
+                    } else if (side === 'left') {
+                        pin.rotation.y = Math.PI / 2;
+                        pin.position.set(-1.9, 0, offset);
+                    } else if (side === 'right') {
+                        pin.rotation.y = Math.PI / 2;
+                        pin.position.set(1.9, 0, offset);
+                    }
+                    chip.add(pin);
+                }
+            };
+
+            createPins('front', 12, 0.3);
+            createPins('back', 12, 0.3);
+            createPins('left', 12, 0.3);
+            createPins('right', 12, 0.3);
+
+            // Create circuit lines on chip
+            const lineMaterial = new THREE.LineBasicMaterial({ color: 0x60a5fa, opacity: 0.6, transparent: true });
+            const circuitGroup = new THREE.Group();
+            chip.add(circuitGroup);
+
+            for (let i = 0; i < 20; i++) {
+                const points = [];
+                const startX = (Math.random() - 0.5) * 2.5;
+                const startZ = (Math.random() - 0.5) * 2.5;
+                points.push(new THREE.Vector3(startX, 0.14, startZ));
+                points.push(new THREE.Vector3(startX + (Math.random() - 0.5), 0.14, startZ + (Math.random() - 0.5)));
+                const lineGeometry = new THREE.BufferGeometry().setFromPoints(points);
+                const line = new THREE.Line(lineGeometry, lineMaterial);
+                circuitGroup.add(line);
+            }
+
+            // Create particles around chip
+            const particlesGeometry = new THREE.BufferGeometry();
+            const particlesCount = 300;
+            const posArray = new Float32Array(particlesCount * 3);
+            const scaleArray = new Float32Array(particlesCount);
+
+            for (let i = 0; i < particlesCount; i++) {
+                posArray[i * 3] = (Math.random() - 0.5) * 15;
+                posArray[i * 3 + 1] = (Math.random() - 0.5) * 15;
+                posArray[i * 3 + 2] = (Math.random() - 0.5) * 15;
+                scaleArray[i] = Math.random();
+            }
+
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+            particlesGeometry.setAttribute('aScale', new THREE.BufferAttribute(scaleArray, 1));
+
+            const particlesMaterial = new THREE.PointsMaterial({
+                size: 0.05,
+                color: 0x60a5fa,
+                transparent: true,
+                opacity: 0.6,
+                blending: THREE.AdditiveBlending
+            });
+
+            const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+            scene.add(particlesMesh);
+
+            // Lighting
+            const ambientLight = new THREE.AmbientLight(0x1a365d, 1.5);
+            scene.add(ambientLight);
+
+            const pointLight1 = new THREE.PointLight(0x60a5fa, 2, 20);
+            pointLight1.position.set(5, 5, 5);
+            scene.add(pointLight1);
+
+            const pointLight2 = new THREE.PointLight(0x22d3ee, 1.5, 20);
+            pointLight2.position.set(-5, 3, -5);
+            scene.add(pointLight2);
+
+            const pointLight3 = new THREE.PointLight(0x3b82f6, 1, 20);
+            pointLight3.position.set(0, -5, 0);
+            scene.add(pointLight3);
+
+            camera.position.z = 7;
+            camera.position.y = 2;
+
+            // Mouse interaction
+            let mouseX = 0;
+            let mouseY = 0;
+            let targetRotationX = 0;
+            let targetRotationY = 0;
+
+            document.addEventListener('mousemove', (event) => {
+                mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+                mouseY = (event.clientY / window.innerHeight) * 2 - 1;
+            });
+
+            // Animation loop
+            const clock = new THREE.Clock();
+
+            const animate = () => {
+                requestAnimationFrame(animate);
+                const elapsedTime = clock.getElapsedTime();
+
+                // Rotate chip
+                chip.rotation.y = elapsedTime * 0.15;
+                chip.rotation.x = Math.sin(elapsedTime * 0.1) * 0.1;
+
+                // Mouse influence
+                targetRotationX = mouseY * 0.2;
+                targetRotationY = mouseX * 0.2;
+                chip.rotation.x += (targetRotationX - chip.rotation.x) * 0.05;
+                chip.rotation.z = (targetRotationY - chip.rotation.z) * 0.05;
+
+                // Animate particles
+                particlesMesh.rotation.y = elapsedTime * 0.02;
+                particlesMesh.rotation.x = elapsedTime * 0.01;
+
+                // Pulse circuit opacity
+                circuitGroup.children.forEach((line, i) => {
+                    line.material.opacity = 0.3 + Math.sin(elapsedTime * 2 + i * 0.5) * 0.3;
+                });
+
+                // Pulse lights
+                pointLight1.intensity = 2 + Math.sin(elapsedTime * 1.5) * 0.5;
+                pointLight2.intensity = 1.5 + Math.cos(elapsedTime * 1.2) * 0.5;
+
+                renderer.render(scene, camera);
+            };
+
+            animate();
+
+            // Handle resize
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        };
+
+        // ===== SCROLL ANIMATIONS =====
+        const initScrollAnimations = () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+            document.querySelectorAll('.fade-up, .fade-left, .fade-right').forEach(el => {
+                observer.observe(el);
+            });
+        };
+
+        // ===== NAVBAR SCROLL =====
+        const initNavbar = () => {
+            const navbar = document.getElementById('navbar');
+            let lastScroll = 0;
+
+            window.addEventListener('scroll', () => {
+                const currentScroll = window.pageYOffset;
+                if (currentScroll > 80) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+                lastScroll = currentScroll;
+            });
+        };
+
+        // ===== MOBILE MENU =====
+        const initMobileMenu = () => {
+            const btn = document.getElementById('mobileMenuBtn');
+            const nav = document.getElementById('navLinks');
+
+            btn.addEventListener('click', () => {
+                nav.classList.toggle('active');
+                btn.textContent = nav.classList.contains('active') ? '✕' : '☰';
+            });
+
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', () => {
+                    nav.classList.remove('active');
+                    btn.textContent = '☰';
+                });
+            });
+        };
+
+        // ===== SMOOTH SCROLL =====
+        const initSmoothScroll = () => {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+        };
+
+        // Initialize everything
+        window.addEventListener('load', () => {
+            initThreeJS();
+            initScrollAnimations();
+            initNavbar();
+            initMobileMenu();
+            initSmoothScroll();
+        });
+    </script>
 </body>
 </html>
